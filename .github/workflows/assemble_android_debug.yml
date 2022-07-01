@@ -16,7 +16,7 @@ env:
   # 应用的application_id
   APP_ID: com.wright
   # 应用名称
-  APP_NAME: wright
+  APP_NAME: 瑞琪
   # 应用icon
   APP_ICON: ic_launcher
   # 应用圆角icon
