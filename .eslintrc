@@ -3,13 +3,7 @@
   "rules": {
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
-    "import/no-commonjs": 0,
-    "no-shadow": 0,
-    "react/jsx-curly-brace-presence": 0,
-    "jsx-quotes": 0,
+    "jsx-quotes": "off",
     "no-unused-vars": "warn"
-  },
-  "globals": {
-    "wx": true,
-  },
+  }
 }

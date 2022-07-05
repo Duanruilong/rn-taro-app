@@ -4,6 +4,8 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 
+#import <React/RCTLinkingManager.h>
+
 #import <UMCore/UMModuleRegistry.h>
 #import <UMReactNativeAdapter/UMNativeModulesProxy.h>
 #import <UMReactNativeAdapter/UMModuleRegistryAdapter.h>
@@ -35,8 +37,27 @@ static void InitializeFlipper(UIApplication *application) {
 
 @implementation AppDelegate
 
+- (BOOL)application:(UIApplication *)application
+   openURL:(NSURL *)url
+   options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+  return [RCTLinkingManager application:application openURL:url options:options];
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+#if DEBUG
+#else
+  NSDictionary *oldSettins = [[NSUserDefaults standardUserDefaults] valueForKey:@"RCTDevMenu"];
+  if ([oldSettins.allKeys containsObject:@"isDebuggingRemotely"]) {
+    NSMutableDictionary *settings = oldSettins?[oldSettins mutableCopy]:[NSMutableDictionary dictionary];
+    [settings removeObjectForKey:@"isDebuggingRemotely"];
+    [[NSUserDefaults standardUserDefaults] setObject:settings forKey:@"RCTDevMenu"];
+  }
+  
+  [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"RCT_jsLocation"];
+#endif
+
 #ifdef FB_SONARKIT_ENABLED
   InitializeFlipper(application);
 #endif

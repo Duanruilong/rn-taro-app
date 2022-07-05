@@ -4,8 +4,7 @@ name: Assemble Ios Debug
 # 触发工作流程的事件
 on:
   push:
-    branches: [ master ]
-    tags: [ v* ]
+    tags: [ v*, r*, i* ]
   pull_request:
     branches: [ master ]
 
@@ -14,16 +13,16 @@ on:
 # 工作流环境变量
 env:
   # 应用的application_id
-  APP_ID: com.wright
-  APP_NAME: 瑞琪
-  VERSION_NUMBER: 1.0.0
+  APP_ID: ${{secrets.APP_ID}}
+  APP_NAME: Taro
   BUILD_TYPE: debug
-  TEAM_ID: wright
-  PROVISIONING_PROFILE_SPECIFIER: DEV_profile
-  CODE_SIGN_IDENTITY: iPhone Developer
-  SIGNING_CERTIFICATE_P12_DATA: ${{secrets.DEBUG_SIGNING_CERTIFICATE_P12_DATA}}
-  SIGNING_CERTIFICATE_PASSWORD: ${{secrets.DEBUG_SIGNING_CERTIFICATE_PASSWORD}}
-  PROVISIONING_PROFILE_DATA: ${{secrets.DEBUG_PROVISIONING_PROFILE_DATA}}
+  IOS_VERSION_NUMBER: 1.4.9
+  IOS_TEAM_ID: ${{secrets.TEAM_ID}}
+  IOS_PROVISIONING_PROFILE_SPECIFIER: ${{secrets.DEBUG_PROVISIONING_PROFILE_SPECIFIER}}
+  IOS_CODE_SIGN_IDENTITY: Apple Development
+  IOS_SIGNING_CERTIFICATE_P12_DATA: ${{secrets.DEBUG_SIGNING_CERTIFICATE_P12_DATA}}
+  IOS_SIGNING_CERTIFICATE_PASSWORD: ${{secrets.DEBUG_SIGNING_CERTIFICATE_PASSWORD}}
+  IOS_PROVISIONING_PROFILE_DATA: ${{secrets.DEBUG_PROVISIONING_PROFILE_DATA}}
 
 jobs:
   assemble:
@@ -70,13 +69,13 @@ jobs:
           echo "exit 0;">react-native-xcode.sh
       - name: Import signing certificate
         env:
-          SIGNING_CERTIFICATE_P12_DATA: ${{ env.SIGNING_CERTIFICATE_P12_DATA }}
-          SIGNING_CERTIFICATE_PASSWORD: ${{ env.SIGNING_CERTIFICATE_PASSWORD }}
+          SIGNING_CERTIFICATE_P12_DATA: ${{ env.IOS_SIGNING_CERTIFICATE_P12_DATA }}
+          SIGNING_CERTIFICATE_PASSWORD: ${{ env.IOS_SIGNING_CERTIFICATE_PASSWORD }}
         run: |
           exec .github/scripts/import-certificate.sh
       - name: Import provisioning profile
         env:
-          PROVISIONING_PROFILE_DATA: ${{ env.PROVISIONING_PROFILE_DATA }}
+          PROVISIONING_PROFILE_DATA: ${{ env.IOS_PROVISIONING_PROFILE_DATA }}
         run: |
           exec .github/scripts/import-profile.sh
       - name: Build app
@@ -84,11 +83,10 @@ jobs:
           FL_APP_IDENTIFIER: ${{ env.APP_ID }}
           FL_UPDATE_PLIST_DISPLAY_NAME: ${{ env.APP_NAME }}
           FL_UPDATE_PLIST_PATH: taroDemo/Info.plist
-          FL_VERSION_NUMBER_VERSION_NUMBER: ${{ env.VERSION_NUMBER }}
-          FL_BUILD_NUMBER_BUILD_NUMBER: ${{ env.BUILD_NUMBER }}
-          FL_CODE_SIGN_IDENTITY: ${{ env.CODE_SIGN_IDENTITY }}
-          FL_PROVISIONING_PROFILE_SPECIFIER: ${{ env.PROVISIONING_PROFILE_SPECIFIER }}
-          FASTLANE_TEAM_ID: ${{ env.TEAM_ID }}
+          FL_VERSION_NUMBER_VERSION_NUMBER: ${{ env.IOS_VERSION_NUMBER }}
+          FL_CODE_SIGN_IDENTITY: ${{ env.IOS_CODE_SIGN_IDENTITY }}
+          FL_PROVISIONING_PROFILE_SPECIFIER: ${{ env.IOS_PROVISIONING_PROFILE_SPECIFIER }}
+          FASTLANE_TEAM_ID: ${{ env.IOS_TEAM_ID }}
         run: |
           cd ios
           bundle update
@@ -100,3 +98,17 @@ jobs:
           path: |
             ${{ github.workspace }}/ios/taroDemo.ipa
             ${{ github.workspace }}/ios/taroDemo.app.dSYM.zip
+      - name: Rename release assets
+        run: |
+          mv ios/taroDemo.ipa ios/app-${{ env.BUILD_TYPE }}.ipa
+          mv ios/taroDemo.app.dSYM.zip ios/app-${{ env.BUILD_TYPE }}.app.dSYM.zip
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          prerelease: ${{ contains(github.ref, 'beta') }}
+          files: |
+            ios/app-${{ env.BUILD_TYPE }}.ipa
+            ios/app-${{ env.BUILD_TYPE }}.app.dSYM.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
