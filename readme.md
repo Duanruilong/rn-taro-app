@@ -5,21 +5,21 @@ The Taro Playground App is a cross-platform application developed using Taro, to
 
 ## Preview
 
-| Android | iOS | Web | Mini Program |
-| - | - | - | - |
+| Android                                                                                | iOS                                                                                    | Web                                                                                 | Mini Program                                                                        |
+| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
 | ![](https://pic3.58cdn.com.cn/nowater/fangfe/n_v295dd481b6b2f446592350e3187716d03.png) | ![](https://pic1.58cdn.com.cn/nowater/fangfe/n_v224532e5560314106b6ab32b0a1534a9d.png) | ![](https://pic5.58cdn.com.cn/nowater/frs/n_v2d585527f52e640679cdd37123a418fe3.png) | ![](https://pic3.58cdn.com.cn/nowater/frs/n_v23ec2613515c6458aaa44f01d459cea8b.jpg) |
-| https://github.com/wuba/taro-playground/releases | https://apps.apple.com/cn/app/taro-playground/id1576830673 | https://wuba.github.io/taro-playground/ | https://github.com/wuba/taro-playground |
+| https://github.com/wuba/taro-playground/releases                                       | https://apps.apple.com/cn/app/taro-playground/id1576830673                             | https://wuba.github.io/taro-playground/                                             | https://github.com/wuba/taro-playground                                             |
 
 ## Supportted versions
 
 0. taro: `@tarojs/cli@^3.2.0`
 1. framework: 'react'
 
-| Playground Version | Taro version | React Native version | branch |
-| - | - | - | - |
-| 1.1.2 | >= 3.2.0, <= 3.3.9 | 0.64 | [releases/rn-0.64+taro-3.3.9](https://github.com/wuba/taro-playground/tree/releases/rn-0.64+taro-3.3.9) |
-| 1.2.0 ~ 1.3.9 | >= 3.3.10, <= 3.4.2 | 0.66 | [releases/rn-0.66+taro-3.4.2](https://github.com/wuba/taro-playground/tree/releases/rn-0.66+taro-3.4.2) |
-| 1.4.0 ~ | >= 3.4.2 | 0.67 | [main](https://github.com/wuba/taro-playground/tree/main) |
+| Playground Version | Taro version        | React Native version | branch                                                                                                  |
+| ------------------ | ------------------- | -------------------- | ------------------------------------------------------------------------------------------------------- |
+| 1.1.2              | >= 3.2.0, <= 3.3.9  | 0.64                 | [releases/rn-0.64+taro-3.3.9](https://github.com/wuba/taro-playground/tree/releases/rn-0.64+taro-3.3.9) |
+| 1.2.0 ~ 1.3.9      | >= 3.3.10, <= 3.4.2 | 0.66                 | [releases/rn-0.66+taro-3.4.2](https://github.com/wuba/taro-playground/tree/releases/rn-0.66+taro-3.4.2) |
+| 1.4.0 ~            | >= 3.4.2            | 0.67                 | [main](https://github.com/wuba/taro-playground/tree/main)                                               |
 ## Quick start
 
 ### install react native library
@@ -240,8 +240,3 @@ If you have other questions, you can join the communication group for help.
 
 ![](https://pic8.58cdn.com.cn/nowater/fangfe/n_v282625210493c4a3fac202d6cf372458e.png)
 
-## License
-
-Taro Playground source code is available under the Apache License V2.
-
-Taro and its graphic trademarks are owned by Beijing Jingdong Century Trading Co., Ltd. and licensed to the Taro Playground project.
